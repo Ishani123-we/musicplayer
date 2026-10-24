@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lo-fi Late Night — Music Player</title>
+  <meta name="description" content="A cozy lo-fi late night music player built with plain HTML, CSS and JavaScript." />
+  <!-- Fonts: Space Grotesk (main) + VT323 (pixel accent for time) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Film-grain overlay (pure CSS/SVG noise) -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="app">
+    <!-- ===== Player card ===== -->
+    <section class="player" aria-label="Music player">
+      <p class="eyebrow">now spinning · side A</p>
+
+      <!-- Vinyl record: cover art sits in the label; spins while playing -->
+      <div class="vinyl-wrap">
+        <div class="vinyl" id="vinyl">
+          <img id="cover" class="vinyl-label" src="" alt="Album cover" />
+          <span class="vinyl-hole"></span>
+        </div>
+        <div class="tonearm" id="tonearm" aria-hidden="true"></div>
+      </div>
+
+      <!-- Song info -->
+      <div class="info">
+        <h1 id="title" class="title">—</h1>
+        <p id="artist" class="artist">—</p>
+      </div>
+
+      <!-- Progress bar (click / drag to seek) -->
+      <div class="progress-wrap">
+        <div class="progress" id="progress" role="slider" aria-label="Seek" tabindex="0">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-thumb" id="progressThumb"></div>
+        </div>
+        <div class="times">
+          <span id="current">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+
+      <!-- Transport controls -->
+      <div class="controls">
+        <button class="icon-btn small" id="shuffleBtn" aria-label="Shuffle" title="Shuffle">
+          <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        </button>
+        <button class="icon-btn" id="prevBtn" aria-label="Previous" title="Previous">
+          <svg viewBox="0 0 24 24"><path d="M19 20 9 12l10-8v16zM5 19V5"/></svg>
+        </button>
+        <button class="icon-btn play" id="playBtn" aria-label="Play" title="Play / Pause">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" class="fill"/></svg>
+          <svg id="pauseIcon" viewBox="0 0 24 24" hidden><path d="M7 4h4v16H7zM14 4h4v16h-4z" class="fill"/></svg>
+        </button>
+        <button class="icon-btn" id="nextBtn" aria-label="Next" title="Next">
+          <svg viewBox="0 0 24 24"><path d="m5 4 10 8-10 8V4zM19 5v14"/></svg>
+        </button>
+        <button class="icon-btn small" id="repeatBtn" aria-label="Repeat" title="Repeat">
+          <svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11V10a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+          <span class="repeat-one" id="repeatOne">1</span>
+        </button>
+      </div>
+
+      <!-- Volume -->
+      <div class="volume">
+        <button class="icon-btn small" id="muteBtn" aria-label="Mute" title="Mute">
+          <svg id="volIcon" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5z" class="fill"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+          <svg id="muteIcon" viewBox="0 0 24 24" hidden><path d="M11 5 6 9H2v6h4l5 4V5z" class="fill"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+        </button>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7" aria-label="Volume" />
+      </div>
+
+      <p class="hint">space · play/pause &nbsp; ←/→ · prev/next &nbsp; ↑/↓ · volume</p>
+    </section>
+
+    <!-- ===== Playlist panel ===== -->
+    <aside class="playlist" aria-label="Playlist">
+      <h2>tonight's queue</h2>
+      <ul id="playlist"></ul>
+    </aside>
+  </main>
+
+  <audio id="audio" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
